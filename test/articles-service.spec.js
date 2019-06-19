@@ -68,7 +68,10 @@ describe('ArticlesService', () => {
           );
           expect(res.title).to.eq(testArticles[0].title);
           expect(res.content).to.eq(testArticles[0].content);
-        });     
+
+          return db('blogful_articles').count().first();
+        })
+        .then(res => expect(res.count).to.eq('1'));
     });
   });
 
@@ -92,7 +95,9 @@ describe('ArticlesService', () => {
         return ArticlesService.deleteArticle(db, 1)
         .then(res => {
           expect(res).to.eq(1);
-        });
+          return db('blogful_articles').count().first();
+        })
+        .then(res => expect(res.count).to.eq('3'));
       });
     });    
   });
